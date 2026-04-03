@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Medical Record Details</h4>
+        </div>
+
+        <div class="card-body">
+
+            <p><strong>Patient:</strong> {{ record.patient }}</p>
+            <p><strong>Doctor:</strong> {{ record.doctor }}</p>
+            <p><strong>Diagnosis:</strong> {{ record.diagnosis }}</p>
+            <p><strong>Treatment:</strong> {{ record.treatment }}</p>
+            <p><strong>Prescription:</strong> {{ record.prescription }}</p>
+            <p><strong>Visit Date:</strong> {{ record.visit_date }}</p>
+
+            <hr>
+
+            <a href="{% url 'record_list' %}" class="btn btn-secondary">
+                Back to Records
+            </a>
+
+            <a href="{% url 'edit_record' record.id %}" class="btn btn-warning">
+                Edit
+            </a>
+
+            <a href="{% url 'delete_record' record.id %}" class="btn btn-danger">
+                Delete
+            </a>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

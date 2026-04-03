@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid px-3 px-md-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-receipt-cutoff me-2 text-primary"></i>
+                Add New Bill
+            </h2>
+            <p class="text-muted mb-0">Create a billing record for a patient</p>
+        </div>
+
+        <a href="{% url 'bill_list' %}" class="btn btn-outline-secondary mt-3 mt-md-0">
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Billing
+        </a>
+    </div>
+
+    <!-- Card -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <!-- Global Errors -->
+            {% if form.errors %}
+            <div class="alert alert-danger d-flex align-items-center">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                Please correct the errors below.
+            </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="row g-3">
+
+                    <!-- Patient -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-person-fill me-1"></i> Patient
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            {{ form.patient }}
+                        </div>
+                        <div class="text-danger small mt-1">
+                            {{ form.patient.errors }}
+                        </div>
+                    </div>
+
+                    <!-- Amount -->
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-cash-stack me-1"></i> Amount
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">₦</span>
+                            {{ form.amount }}
+                        </div>
+                        <div class="text-danger small mt-1">
+                            {{ form.amount.errors }}
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-credit-card-fill me-1"></i> Status
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-check2-square"></i>
+                            </span>
+                            {{ form.status }}
+                        </div>
+                        <div class="text-danger small mt-1">
+                            {{ form.status.errors }}
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Actions -->
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <a href="{% url 'bill_list' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-circle me-1"></i>
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-save me-1"></i>
+                        Save Bill
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<!-- Navbar removed on dashboard -->
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row g-4">
+
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2">
+            <div class="card border-0 shadow-sm sidebar-card h-100">
+                <div class="card-body p-3">
+                    <div class="text-center mb-4">
+                        <div class="sidebar-logo mx-auto mb-3">
+                            <i class="bi bi-hospital"></i>
+                        </div>
+                        <h5 class="fw-bold mb-1">RedcolMS</h5>
+                        <small class="text-muted">Hospital System</small>
+                    </div>
+
+                    <div class="list-group list-group-flush sidebar-menu">
+                        <a href="/dashboard/" class="list-group-item list-group-item-action active">
+                            <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                        </a>
+                        <a href="/patients/" class="list-group-item list-group-item-action">
+                            <i class="bi bi-people-fill me-2"></i> Patients
+                        </a>
+                        <a href="/records/" class="list-group-item list-group-item-action">
+                            <i class="bi bi-file-earmark-medical-fill me-2"></i> Medical Records
+                        </a>
+                        <a href="/billing/" class="list-group-item list-group-item-action">
+                            <i class="bi bi-receipt-cutoff me-2"></i> Billing
+                        </a>
+                        <a href="/dashboard/reports/" class="list-group-item list-group-item-action">
+                            <i class="bi bi-bar-chart-fill me-2"></i> Reporting
+                        </a>
+                    </div>
+<hr>
+
+<div class="small text-muted mb-2">Account</div>
+<div class="d-grid">
+    <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-danger">
+        <i class="bi bi-box-arrow-right me-1"></i>
+        Logout
+    </a>
+</div>
+                    <hr>
+
+                    <div class="small text-muted mb-2">Quick Access</div>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'add_patient' %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-person-plus-fill me-1"></i> Add Patient
+                        </a>
+                        <a href="{% url 'add_record' %}" class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-file-medical-fill me-1"></i> Add Record
+                        </a>
+                        <a href="{% url 'add_bill' %}" class="btn btn-sm btn-outline-warning">
+                            <i class="bi bi-receipt me-1"></i> Add Bill
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Content -->
+        <div class="col-lg-9 col-xl-10">
+
+            <!-- Header -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1 text-primary">
+                        <i class="bi bi-speedometer2 me-2"></i>
+                        Hospital Dashboard
+                    </h2>
+                    <p class="text-muted mb-0">
+                        <i class="bi bi-hospital me-1"></i>
+                        Welcome to the Hospital Information System overview panel.
+                    </p>
+                </div>
+                <div class="mt-3 mt-md-0">
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2 fs-6">
+                        <i class="bi bi-calendar-check me-2"></i>Today
+                    </span>
+                </div>
+            </div>
+
+            <!-- Welcome Banner -->
+            <div class="card border-0 shadow-sm mb-4 dashboard-banner">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <h3 class="fw-bold text-white mb-2">
+                                <i class="bi bi-person-circle me-2"></i>
+                                Welcome back{% if user.is_authenticated %}, {{ user.username }}{% endif %}
+                            </h3>
+                            <p class="text-white mb-0">
+                                <i class="bi bi-activity me-2"></i>
+                                Monitor patients, records, billing, and payments from one central dashboard.
+                            </p>
+                        </div>
+                        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                            <i class="bi bi-hospital text-white dashboard-banner-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-4">
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="card stat-card patients-card border-0 shadow-sm h-100">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="text-muted mb-1 small">
+                                    <i class="bi bi-people me-1"></i>Total Patients
+                                </p>
+                                <h2 class="fw-bold mb-0">{{ total_patients }}</h2>
+                                <small class="text-success">
+                                    <i class="bi bi-arrow-up-right"></i> Active records in system
+                                </small>
+                            </div>
+                            <div class="icon-box bg-primary-subtle text-primary">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="card stat-card records-card border-0 shadow-sm h-100">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="text-muted mb-1 small">
+                                    <i class="bi bi-file-earmark-medical me-1"></i>Medical Records
+                                </p>
+                                <h2 class="fw-bold mb-0">{{ total_records }}</h2>
+                                <small class="text-success">
+                                    <i class="bi bi-check-circle"></i> Updated clinical data
+                                </small>
+                            </div>
+                            <div class="icon-box bg-success-subtle text-success">
+                                <i class="bi bi-file-earmark-medical-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="card stat-card bills-card border-0 shadow-sm h-100">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="text-muted mb-1 small">
+                                    <i class="bi bi-receipt me-1"></i>Total Bills
+                                </p>
+                                <h2 class="fw-bold mb-0">{{ total_bills }}</h2>
+                                <small class="text-warning-emphasis">
+                                    <i class="bi bi-cash-stack"></i> Billing records generated
+                                </small>
+                            </div>
+                            <div class="icon-box bg-warning-subtle text-warning">
+                                <i class="bi bi-receipt-cutoff"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="card stat-card payments-card border-0 shadow-sm h-100">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="text-muted mb-1 small">
+                                    <i class="bi bi-credit-card me-1"></i>Total Payments
+                                </p>
+                                <h2 class="fw-bold mb-0">{{ total_payments }}</h2>
+                                <small class="text-info-emphasis">
+                                    <i class="bi bi-wallet2"></i> Payment transactions recorded
+                                </small>
+                            </div>
+                            <div class="icon-box bg-info-subtle text-info">
+                                <i class="bi bi-credit-card-2-front-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Quick Actions + System Summary -->
+            <div class="row g-4 mb-4">
+
+                <div class="col-lg-7">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0 pt-4 pb-0">
+                            <h5 class="fw-bold mb-0">
+                                <i class="bi bi-lightning-charge-fill me-2 text-primary"></i>
+                                Quick Actions
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <a href="{% url 'add_patient' %}" class="btn btn-primary w-100 py-3 dashboard-action-btn">
+                                        <i class="bi bi-person-plus-fill me-2"></i>Add New Patient
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{% url 'add_record' %}" class="btn btn-success w-100 py-3 dashboard-action-btn">
+                                        <i class="bi bi-file-medical-fill me-2"></i>Add Medical Record
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{% url 'add_bill' %}" class="btn btn-warning w-100 py-3 dashboard-action-btn">
+                                        <i class="bi bi-receipt me-2"></i>Create Bill
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{% url 'add_payment' %}" class="btn btn-info w-100 py-3 dashboard-action-btn text-white">
+                                        <i class="bi bi-cash-coin me-2"></i>Record Payment
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0 pt-4 pb-0">
+                            <h5 class="fw-bold mb-0">
+                                <i class="bi bi-clipboard-data-fill me-2 text-success"></i>
+                                System Summary
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="summary-item d-flex justify-content-between align-items-center mb-3">
+                                <span><i class="bi bi-people me-2 text-primary"></i>Registered Patients</span>
+                                <span class="fw-semibold">{{ total_patients }}</span>
+                            </div>
+                            <div class="summary-item d-flex justify-content-between align-items-center mb-3">
+                                <span><i class="bi bi-journal-medical me-2 text-success"></i>Medical Records</span>
+                                <span class="fw-semibold">{{ total_records }}</span>
+                            </div>
+                            <div class="summary-item d-flex justify-content-between align-items-center mb-3">
+                                <span><i class="bi bi-receipt me-2 text-warning"></i>Total Bills</span>
+                                <span class="fw-semibold">{{ total_bills }}</span>
+                            </div>
+                            <div class="summary-item d-flex justify-content-between align-items-center">
+                                <span><i class="bi bi-credit-card me-2 text-info"></i>Total Payments</span>
+                                <span class="fw-semibold">{{ total_payments }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Recent Section -->
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0 pt-4 pb-0">
+                            <h5 class="fw-bold mb-0">
+                                <i class="bi bi-clock-history me-2 text-primary"></i>
+                                Recent Activities
+                            </h5>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="activity-item d-flex mb-3">
+                                <div class="activity-icon bg-primary-subtle text-primary me-3">
+                                    <i class="bi bi-person-plus-fill"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Patient registration module ready</h6>
+                                    <small class="text-muted">Use this area later for latest patient or record activities.</small>
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex mb-3">
+                                <div class="activity-icon bg-success-subtle text-success me-3">
+                                    <i class="bi bi-file-earmark-medical-fill"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Medical records section active</h6>
+                                    <small class="text-muted">You can later connect this to recent record entries.</small>
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activity-icon bg-warning-subtle text-warning me-3">
+                                    <i class="bi bi-receipt-cutoff"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Billing system connected</h6>
+                                    <small class="text-muted">This can later show latest bills and payments.</small>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0 pt-4 pb-0">
+                            <h5 class="fw-bold mb-0">
+                                <i class="bi bi-megaphone-fill me-2 text-danger"></i>
+                                Hospital Notice Board
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-primary border-0">
+                                <i class="bi bi-megaphone-fill me-2"></i>
+                                Keep patient records updated after each consultation.
+                            </div>
+                            <div class="alert alert-success border-0">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Always verify billing details before recording payments.
+                            </div>
+                            <div class="alert alert-warning border-0">
+                                <i class="bi bi-clock-history me-2"></i>
+                                Review outstanding bills and pending transactions regularly.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

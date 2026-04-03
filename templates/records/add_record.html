@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow-sm border-0" style="border-radius: 12px;">
+
+            <!-- Header -->
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0">
+                    <i class="bi bi-journal-medical me-2"></i>
+                    Add Medical Record
+                </h4>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Patient -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-person-fill me-1"></i> Patient
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            {{ form.patient }}
+                        </div>
+                    </div>
+
+                    <!-- Doctor -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-person-badge-fill me-1"></i> Doctor
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person-badge"></i>
+                            </span>
+                            {{ form.doctor }}
+                        </div>
+                    </div>
+
+                    <!-- Diagnosis -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-clipboard2-pulse-fill me-1"></i> Diagnosis
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-heart-pulse"></i>
+                            </span>
+                            {{ form.diagnosis }}
+                        </div>
+                    </div>
+
+                    <!-- Treatment -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-capsule-pill me-1"></i> Treatment
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-capsule"></i>
+                            </span>
+                            {{ form.treatment }}
+                        </div>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-calendar-event-fill me-1"></i> Date
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-calendar-date"></i>
+                            </span>
+                            {{ form.date }}
+                        </div>
+                    </div>
+
+                    <!-- Notes (optional, only if your form has it) -->
+                    {% if form.notes %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-stickies-fill me-1"></i> Notes
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-journal-text"></i>
+                            </span>
+                            {{ form.notes }}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-save me-1"></i> Save Record
+                        </button>
+
+                        <a href="{% url 'record_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+Developer
+username: admin
+pass: 123admin456
+
+Doctor
+username:  oladele
+pass: #123oladele456
+
+
+Nurse
+username:  bayo
+pass: 123bayo456
+
+Receptionist
+username:  olabayo
+pass: 123bayoola456
+
+Cashier
+username:  basheer
+pass: 123basheer456
+
+Management
+username:  mgt
+pass: 123@mgt456
